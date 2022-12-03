@@ -45,7 +45,7 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">
-                    <img src="/assets/images/website-logo.jpg" alt="xpertbot-academy" class="img-fluid">
+                    <img src="/assets/images/website-logo.png" alt="xpertbot-academy" class="img-fluid">
                 </a>
 
                 <!-- Toggler -->
@@ -249,16 +249,14 @@
                         <i class="bi bi-laptop"></i>
                     </div>
                     <h4>Web Development</h4>
-                    <p>(4 Courses)</p>
                   </a>
                 </div>
                 <div class="category-item category-bg-2">
                     <a href="#">
                         <div class="category-icon">
-                            <i class="bi bi-layer"></i>
+                            <i class="bi bi-mobile"></i>
                         </div>
-                        <h4>Design</h4>
-                        <p>(12 Courses)</p>
+                        <h4>Mobile Development</h4>
                     </a>
                 </div>
                 <div class="category-item category-bg-3">
@@ -266,8 +264,7 @@
                     <div class="category-icon">
                         <i class="bi bi-target-arrow"></i>
                     </div>
-                    <h4>Marketing</h4>
-                    <p>(6 Courses)</p>
+                    <h4>Quality Assurance</h4>
                    </a>
                 </div>
 
@@ -276,17 +273,15 @@
                     <div class="category-icon">
                         <i class="bi bi-rocket2"></i>
                     </div>
-                    <h4>Art & Design</h4>
-                    <p>(6 Courses)</p>
+                    <h4>Project Management</h4>
                    </a>
                 </div>
                 <div class="category-item category-bg-5">
                    <a href="#">
                     <div class="category-icon">
-                        <i class="bi bi-shield"></i>
+                        <i class="bi bi-brush"></i>
                     </div>
                     <h4>Design</h4>
-                    <p>(12 Courses)</p>
                    </a>
                 </div>
             </div>
