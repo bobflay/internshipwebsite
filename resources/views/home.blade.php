@@ -6,7 +6,7 @@
   
   <meta name="author" content="themeturn.com">
 
-  <title>Edutim- Education LMS template</title>
+  <title>Xpertbot Academy</title>
 
   <!-- Mobile Specific Meta-->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,8 +44,8 @@
     <div class="site-navigation main_menu menu-2" id="mainmenu-area">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">
-                    <img src="/assets/images/logo-dark.png" alt="Edutim" class="img-fluid">
+                <a class="navbar-brand" href="/">
+                    <img src="/assets/images/website-logo.jpg" alt="xpertbot-academy" class="img-fluid">
                 </a>
 
                 <!-- Toggler -->
@@ -57,39 +57,6 @@
                 <!-- Collapse -->
                 <div class="collapse navbar-collapse" id="navbarMenu">
 
-                    <div class="category-menu d-none d-lg-block">
-                        <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbar3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-grip-horizontal"></i>Categoris
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbar3">
-                                 <a class="dropdown-item " href="#">
-                                    WordPress
-                                </a>
-                                <a class="dropdown-item " href="#">
-                                    Web Design
-                                </a> 
-
-                                <a class="dropdown-item " href="#">
-                                    Marketing
-                                </a> 
-                                 <a class="dropdown-item " href="#">
-                                    Graphics Design
-                                </a> 
-                                <a class="dropdown-item " href="#">
-                                   Financial
-                                </a> 
-                                <a class="dropdown-item " href="#">
-                                    Personal Growth
-                                </a> 
-                            </div>
-                        </div>
-                    </div>
-
-                    <form action="#" class="header-form">
-                        <input type="text" class="form-control" placeholder="search">
-                        <i class="fa fa-search"></i>
-                    </form> 
                     
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
