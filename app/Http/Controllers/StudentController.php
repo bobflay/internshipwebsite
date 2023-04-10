@@ -14,7 +14,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::where('hide',false)->get();
         return view('students',compact('students'));
     }
 

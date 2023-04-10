@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
-
+use App\Nova\Metrics\NewUsers;
+use App\Nova\Metrics\NewRegisteredUsers;
+use App\Nova\Metrics\ScholarshipUsers;
+use App\Models\User;
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
@@ -42,10 +45,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, [
-                'bob.fleifel@gmail.com',
-                'aliredahajj066@gmail.com'
-            ]);
+            $users = User::pluck('email')->toArray();
+            return in_array($user->email, $users);
         });
     }
 
@@ -57,7 +58,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new Help,
+            (new NewUsers)->canSee(function ($request) {
+                return in_array($request->user()->email,['bob.fleifel@gmail.com','aliredahajj066@gmail.com']);
+            }),
+            new NewRegisteredUsers,
+            (new ScholarshipUsers)->canSee(function ($request) {
+                return in_array($request->user()->email,['bob.fleifel@gmail.com','aliredahajj066@gmail.com']);
+            }),
         ];
     }
 

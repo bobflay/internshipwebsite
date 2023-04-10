@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Boolean;
+
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Student extends Resource
@@ -30,7 +32,7 @@ class Student extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'name',
     ];
 
     /**
@@ -43,10 +45,16 @@ class Student extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Text::make('uuid'),
             Text::make('name')->sortable(),
             Text::make('project')->sortable(),
             Text::make('url')->sortable(),
+            Text::make('linkedin')->sortable(),
+            Text::make('profile_photo')->sortable(),
             Date::make('dob')->format('DD-MM-YYYY'),
+            Boolean::make('featured'),
+            Boolean::make('hide'),
+
 
 
         ];
