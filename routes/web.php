@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\PortfolioController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,7 @@ Route::get('/candidates/{id}',[CandidateController::class,'show']);
 Route::get('/students/{id}', [StudentController::class, 'show']);
 Route::get('/students',[StudentController::class,'index']);
 
+Route::get('/portfolio/{id}',[PortfolioController::class,'show']);
 
 
 
