@@ -41,6 +41,16 @@ class JobSeeker extends Resource
         'id','name','email'
     ];
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if(in_array($request->user()->email,['bob.fleifel@gmail.com','aliredahajj066@gmail.com']))
+        {
+            return $query;
+        }else{
+            return $query->where('email', $request->user()->email);
+        }
+    }
+
     /**
      * Get the fields displayed by the resource.
      *

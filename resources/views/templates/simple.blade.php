@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Marc Template</title>
+    <title>{{$candidate->name}}</title>
 
     <link rel="stylesheet" href="/templates_assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/templates_assets/css/unicons.css">
@@ -22,7 +22,7 @@
     <!-- MENU -->
     <nav class="navbar navbar-expand-sm navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="/portfolio/{{$candidate->id}}"><i class='uil uil-user'></i> Marc</a>
+            <a class="navbar-brand" href="/portfolio/{{$candidate->id}}"><i class='uil uil-user'></i> {{$candidate->name}}</a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -204,7 +204,7 @@
             <div class="contact-info d-flex justify-content-between align-items-center py-4 px-lg-5">
                 <div class="contact-info-item">
                   <h3 class="mb-3 text-white">Say hello</h3>
-                  <p class="footer-text mb-0">+961 00 000 000</p>
+                  <p class="footer-text mb-0">{{$candidate->phone_number}}</p>
                   <p><a href="mailto:hello@company.co">youremail@hotmail.com</a></p>
                 </div>
 

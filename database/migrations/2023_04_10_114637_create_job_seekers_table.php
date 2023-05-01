@@ -18,15 +18,15 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('phone_number');
-            $table->date('dob');
-            $table->string('profile_picture');
-            $table->string('linkedin');
-            $table->string('github');
-            $table->string('major');
-            $table->string('University');
-            $table->string('graduation');
-            $table->string('country');
-            $table->string('city');
+            $table->date('dob')->nullable();
+            $table->string('profile_picture')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->string('github')->nullable();
+            $table->string('major')->nullable();
+            $table->string('University')->nullable();
+            $table->string('graduation')->nullable();
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ class Experience extends Resource
      * @var string
      */
     public static $model = \App\Models\Experience::class;
+    public static $group = 'Jobs';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -34,6 +35,18 @@ class Experience extends Resource
     public static $search = [
         'id',
     ];
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if(in_array($request->user()->email,['bob.fleifel@gmail.com','aliredahajj066@gmail.com']))
+        {
+            return $query;
+        }else{            
+            return $query->whereHas('JobSeeker',function($query) use ($request){
+                $query->where('email',$request->user()->email);
+            });
+        }
+    }
 
     /**
      * Get the fields displayed by the resource.

@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('job_seekers', function (Blueprint $table) {
-            $table->string('profession');
-            $table->text('objective');
-            $table->text('cv_link');
+            $table->string('profession')->nullable();
+            $table->text('objective')->nullable();
+            $table->text('cv_link')->nullable();
         });
     }
 

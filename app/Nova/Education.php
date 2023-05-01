@@ -7,7 +7,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
-
+use App\Models\JobSeeker;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Education extends Resource
@@ -25,6 +25,7 @@ class Education extends Resource
      * @var string
      */
     public static $title = 'name';
+    public static $group = 'Jobs';
 
     /**
      * The columns that should be searched.
@@ -34,6 +35,19 @@ class Education extends Resource
     public static $search = [
         'id','institution','name'
     ];
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if(in_array($request->user()->email,['bob.fleifel@gmail.com','aliredahajj066@gmail.com']))
+        {
+            return $query;
+        }else{            
+            return $query->whereHas('JobSeeker',function($query) use ($request){
+                $query->where('email',$request->user()->email);
+            });
+        }
+    }
+    
 
     /**
      * Get the fields displayed by the resource.
