@@ -34,6 +34,7 @@ class ConvertCandidateToJobSeeker extends Command
         foreach($candidates as $candidate)
         {
             $job_seeker = new JobSeeker();
+            $job_seeker->slug = $this->createSlug($candidate->name);
             $job_seeker->name = $candidate->name;
             $job_seeker->phone_number = $candidate->phone;
             $job_seeker->email = $candidate->email;
@@ -47,4 +48,24 @@ class ConvertCandidateToJobSeeker extends Command
         }
         return 0;
     }
+
+    private function createSlug($name) {
+        // Convert the name to lowercase
+        $name = strtolower($name);
+      
+        // Replace spaces with hyphens
+        $name = str_replace(' ', '-', $name);
+      
+        // Remove any non-alphanumeric characters
+        $name = preg_replace('/[^a-z0-9\-]/', '', $name);
+      
+        // Remove any consecutive hyphens
+        $name = preg_replace('/-+/', '-', $name);
+      
+        // Trim any leading or trailing hyphens
+        $name = trim($name, '-');
+      
+        // Return the slug
+        return $name;
+      }
 }

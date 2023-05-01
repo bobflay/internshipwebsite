@@ -26,7 +26,7 @@ Route::get('/candidates/{id}',[CandidateController::class,'show']);
 Route::get('/students/{id}', [StudentController::class, 'show']);
 Route::get('/students',[StudentController::class,'index']);
 
-Route::get('/portfolio/{id}',[PortfolioController::class,'show']);
+Route::get('{slug}',[PortfolioController::class,'show']);
 
 
 

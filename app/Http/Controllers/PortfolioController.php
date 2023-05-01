@@ -7,9 +7,14 @@ use App\Models\JobSeeker;
 
 class PortfolioController extends Controller
 {
-    public function show($id)
+    public function show($slug)
     {
-        $candidate = JobSeeker::find($id);
-        return view('templates.simple',compact('candidate'));
+        $candidate = JobSeeker::where('slug',$slug)->first();
+        if(!is_null($candidate))
+        {
+            return view('templates.simple',compact('candidate'));
+        }else{
+            dd("candidate is not found !");
+        }
     }
 }
