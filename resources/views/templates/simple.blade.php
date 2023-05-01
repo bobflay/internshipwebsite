@@ -40,7 +40,7 @@
                         <a href="#project" class="nav-link"><span data-hover="Projects">Projects</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="#resume" class="nav-link"><span data-hover="Resume">Resume</span></a>
+                        <a href="{{$candidate->cv_link}}" target="_blank" class="nav-link"><span data-hover="Resume">Resume</span></a>
                     </li>
                     <li class="nav-item">
                         <a href="#contact" class="nav-link"><span data-hover="Contact">Contact</span></a>
@@ -64,7 +64,7 @@
         <div class="container">
             <div class="row">
                 
-                <div class="col-lg-7 col-md-12 col-12 d-flex align-items-center">
+                <div class="col-lg-9 col-md-12 col-12 d-flex align-items-center">
                     <div class="about-text">
                         <small class="small-text">Welcome to <span class="mobile-block">my portfolio website!</span></small>
                         <h1 class="animated animated-text">
@@ -75,18 +75,18 @@
                                 </div>
                         </h1>
 
-                        <p>Building a successful product is a challenge. I am highly energetic in user experience design, interfaces and web development.</p>
+                        <p>{{$candidate->objective}}</p>
                         
                         <div class="custom-btn-group mt-4">
-                          <a href="#" class="btn mr-lg-2 custom-btn"><i class='uil uil-file-alt'></i> Download Resume</a>
+                          <a href="Storage::url($candidate->profile_picture);" target="_blank" class="btn mr-lg-2 custom-btn"><i class='uil uil-file-alt'></i> Download Resume</a>
                           <a href="#contact" class="btn custom-btn custom-btn-bg custom-btn-link">Get a free quote</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-5 col-md-12 col-12">
+                <div class="col-lg-3 col-md-12 col-12">
                     <div class="about-image svg">
-                        <img src="/templates_assets/images/undraw/undraw_software_engineer_lvl5.svg" class="img-fluid" alt="svg image">
+                        <img src="{{Storage::url($candidate->profile_picture);}}" class="img-fluid" alt="svg image">
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@
     <section class="project py-5" id="project">
         <div class="container">
                 
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-lg-11 text-center mx-auto col-12">
 
                       <div class="col-lg-8 mx-auto">
@@ -138,7 +138,7 @@
                       </div>
 
                   </div>
-                </div>
+                </div> -->
         </div>
     </section>
 
@@ -205,7 +205,7 @@
                 <div class="contact-info-item">
                   <h3 class="mb-3 text-white">Say hello</h3>
                   <p class="footer-text mb-0">{{$candidate->phone_number}}</p>
-                  <p><a href="mailto:hello@company.co">youremail@hotmail.com</a></p>
+                  <p><a href="mailto:{{$candidate->email}}">{{$candidate->email}}</a></p>
                 </div>
 
                 <ul class="social-links">

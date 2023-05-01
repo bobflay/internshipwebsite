@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('linkedin')->nullable();
             $table->string('github')->nullable();
             $table->string('major')->nullable();
-            $table->string('University')->nullable();
+            $table->string('university')->nullable();
             $table->string('graduation')->nullable();
             $table->string('country')->nullable();
             $table->string('city')->nullable();
