@@ -70,7 +70,7 @@ class JobSeeker extends Resource
             Text::make('GitHub')->sortable()->rules('url', 'max:255'),
             Text::make('Major')->sortable()->rules('required', 'max:255'),
             Text::make('Profession')->sortable()->rules('required', 'max:255'),
-            Textarea::make('Objective')->sortable()->rules('required', 'max:255'),
+            Textarea::make('Objective')->sortable()->rules('required'),
             File::make('Resume','cv_link')->disk('public')->acceptedTypes('.pdf'),
             Text::make('University')->sortable()->rules('required', 'max:255'),
             Text::make('Graduation Year','graduation')->sortable()->rules('required','max:255'),
