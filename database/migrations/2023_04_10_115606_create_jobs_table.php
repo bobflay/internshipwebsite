@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->string('title');
-            $table->text('description');
+            $table->longText('description');
             $table->string('type');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('job_seekers', function (Blueprint $table) {
             $table->string('profession')->nullable();
-            $table->text('objective')->nullable();
+            $table->longText('objective')->nullable();
             $table->text('cv_link')->nullable();
         });
     }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('end_year');
             $table->string('company_name');
             $table->string('position');
-            $table->string('description');
+            $table->longText('description');
             $table->unsignedBigInteger('job_seeker_id');
             $table->foreign('job_seeker_id')->references('id')->on('job_seekers')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
