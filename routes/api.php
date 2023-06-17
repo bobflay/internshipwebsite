@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\API\QuestionController;
+
+use App\Http\Controllers\API\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,3 +24,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/candidates/discord',[CandidateController::class,'updateDiscord']);
 Route::get('/candidates/csv',[CandidateController::class,'exportCSV']);
 Route::apiResource('candidates', CandidateController::class);
+
+
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::post('refresh', [AuthController::class, 'refresh']);
+Route::post('user', [AuthController::class, 'user'])->middleware('auth:api');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::get('questions',[QuestionController::class,'index']);
+
+});

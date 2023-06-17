@@ -7,7 +7,9 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "build-exams": "cd nova-components/Exams && npm run dev",
+        "build-exams-prod": "cd nova-components/Exams && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.25",

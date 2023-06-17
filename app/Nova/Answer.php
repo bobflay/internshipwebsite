@@ -4,26 +4,25 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsTo;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Category extends Resource
+class Answer extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Category::class;
+    public static $model = \App\Models\Answer::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -31,7 +30,7 @@ class Category extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id',
     ];
 
     /**
@@ -44,10 +43,9 @@ class Category extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
-            HasMany::make('courses'),
-            HasMany::make('candidates'),
-            HasMany::make('questions')
+            BelongsTo::make('User'),
+            BelongsTo::make('Question'),
+            BelongsTo::make('Choice')
         ];
     }
 

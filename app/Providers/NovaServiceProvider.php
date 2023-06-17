@@ -10,6 +10,8 @@ use App\Nova\Metrics\NewUsers;
 use App\Nova\Metrics\NewRegisteredUsers;
 use App\Nova\Metrics\ScholarshipUsers;
 use App\Models\User;
+use Xpertbot\Exams\Exams;
+
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
@@ -85,7 +87,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            new Exams
+        ];
     }
 
     /**
