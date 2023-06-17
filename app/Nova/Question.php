@@ -37,6 +37,17 @@ class Question extends Resource
         'content',
     ];
 
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if(in_array($request->user()->email,['bob.fleifel@gmail.com','aliredahajj066@gmail.com']))
+        {
+            return $query;
+        }else{
+            return $query->where('id','9999999');
+        }
+    }
+
     /**
      * Get the fields displayed by the resource.
      *
