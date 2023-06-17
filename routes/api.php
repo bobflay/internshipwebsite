@@ -35,5 +35,6 @@ Route::post('user', [AuthController::class, 'user'])->middleware('auth:api');
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('questions',[QuestionController::class,'index']);
+    Route::post('answer',[QuestionController::class,'answer']);
 
 });

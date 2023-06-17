@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\Candidate;
+use App\Models\Answer;
+
 
 class QuestionController extends Controller
 {
@@ -27,7 +29,28 @@ class QuestionController extends Controller
             'data' => $questions,
             'message' => 'Successfully retrieved questions.',
         ]);
+    }
 
-        
+    public function answer(Request $request)
+    {
+        $user = auth()->user();
+
+        $data = $request->validate([
+            'question_id' => 'required|integer',
+            'choice_id' => 'required|integer',
+        ]);
+
+        // Create a new answer
+        $answer = Answer::create([
+            'question_id' => $data['question_id'],
+            'choice_id' => $data['choice_id'],
+            'user_id'=>$user->id
+        ]);
+
+        // Return a response with the created answer
+        return response()->json([
+            'message' => 'Answer submitted successfully',
+            'answer' => $answer,
+        ]);
     }
 }
