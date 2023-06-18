@@ -23,7 +23,7 @@ class QuestionController extends Controller
         $questions = $candidate->category->questions()
         ->with(['choices' => function ($query) {
             $query->select('id', 'content','question_id');
-        }])->get();
+        }])->take(5)->get();
 
         return response()->json([
             'data' => $questions,
