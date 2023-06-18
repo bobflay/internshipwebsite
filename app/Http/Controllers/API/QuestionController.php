@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\Candidate;
 use App\Models\Answer;
+use App\Models\Question;
 
 
 class QuestionController extends Controller
@@ -20,13 +21,25 @@ class QuestionController extends Controller
     {
         $user = auth()->user();
         $candidate = Candidate::where('email',$user->email)->first();
-        $questions = $candidate->category->questions()
-        ->with(['choices' => function ($query) {
-            $query->select('id', 'content','question_id');
-        }])->take(5)->get();
+        $category = $candidate->category;
+        // $questions = $candidate->category->questions()
+        // ->with(['choices' => function ($query) {
+        //     $query->select('id', 'content','question_id')->get()->shuffle();
+        // }])->take(5)->get();
+
+        $questions = Question::where('category_id',$category->id)->take(5)->get();
+        $shuffled_questions = [];
+        foreach ($questions as $question) {
+            $choices = $question->choices->toArray();
+            shuffle($choices);
+            $question = $question->toArray();
+            $question['choices'] = $choices;
+            array_push($shuffled_questions,$question);
+        }
+
 
         return response()->json([
-            'data' => $questions,
+            'data' => $shuffled_questions,
             'message' => 'Successfully retrieved questions.',
         ]);
     }
