@@ -9,15 +9,25 @@ use App\Http\Controllers\Controller;
 class AuthController extends Controller
 {
     public function login(Request $request)
-{
-    $credentials = $request->only('email', 'password');
+    {
+        $credentials = $request->only('email', 'password');
 
-    if (Auth::attempt($credentials)) {
-        $user = Auth::user();
-        $accessToken = $user->createToken('authToken')->plainTextToken;
-        return response()->json(['access_token' => $accessToken], 200);
-    } else {
-        return response()->json(['error' => 'Unauthorized'], 401);
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            $accessToken = $user->createToken('authToken')->plainTextToken;
+            return response()->json(['access_token' => $accessToken], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     }
-}
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
+    }
 }
