@@ -43,7 +43,7 @@ class ScreenCaptureController extends Controller
     
         // Create a new screen capture
         $screenCapture = new ScreenCapture([
-            'location' => explode('/public//',$path),
+            'location' => str_replace('/public/','',$path),
             'user_id' => $user->id,
         ]);
     
