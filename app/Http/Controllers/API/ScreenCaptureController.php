@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\ScreenCapture;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Log;
+use Intervention\Image\Facades\Image;
+
 
 class ScreenCaptureController extends Controller
 {
@@ -17,32 +20,35 @@ class ScreenCaptureController extends Controller
 
     public function store(Request $request)
     {
+        Log::info('inside store');
         $request->validate([
-            'image' => 'required|image',
+            'image' => 'required|string',
         ]);
-
+        Log::info('after validation');
         $user = auth()->user();
-
-        $image = $request->file('image');
-        $extension = $image->getClientOriginalExtension();
-
+    
+        $base64Image = $request->input('image');
+        
+        // Decode the base64 image and create an Intervention Image instance
+        $image = Image::make(base64_decode($base64Image));
+    
         // Generate a UUID for the image filename
         $uuid = Str::uuid()->toString();
-
-        // Combine the UUID and original filename
-        $filename = $uuid . '.' . $extension;
-
-        // Store the image file with the generated filename
-        $imagePath = $image->storeAs('screen_captures', $filename);
-
+    
+        // Define the storage path and filename
+        $path = '/public/screen_captures/' . $uuid . '.jpg';
+    
+        // Save the image to the storage
+        Storage::put($path, (string) $image->encode('jpg'));
+    
         // Create a new screen capture
         $screenCapture = new ScreenCapture([
-            'location' => $imagePath,
+            'location' => explode('/public//',$path),
             'user_id' => $user->id,
         ]);
-
+    
         $screenCapture->save();
-
-        return response()->json(['message' => 'Screen capture created', 'location' => $imagePath], 201);
+    
+        return response()->json(['message' => 'Screen capture created', 'location' => $path], 200);
     }
 }
