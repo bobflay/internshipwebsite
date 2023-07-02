@@ -36,6 +36,7 @@ Route::get('/privacy',function(){
 Route::get('/students/{id}', [StudentController::class, 'show']);
 Route::get('/students',[StudentController::class,'index']);
 
+Route::get('phase2',[StudentController::class,'secondPhase']);
 
 Route::get('/test',function(){
 

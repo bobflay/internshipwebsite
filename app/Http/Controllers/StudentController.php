@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\User;
 
 class StudentController extends Controller
 {
@@ -16,6 +17,47 @@ class StudentController extends Controller
     {
         $students = Student::where('hide',false)->get();
         return view('students',compact('students'));
+    }
+
+    public function secondPhase()
+    {
+        $users = User::all();
+        $result = [];
+        foreach ($users as $key => $user) {
+            $obj = [];
+            $obj['name'] = $user->name;
+            $answers = $user->answers;
+            $obj['questions'] = count($answers);
+            $obj['scholarship'] = is_null($user->candidate) ? '': $user->candidate->scholarship;
+            $obj['category'] = is_null($user->candidate) ? '': $user->candidate->category->name;
+            $obj['program'] = is_null($user->candidate) ? '': $user->candidate->program;
+            $obj['discord_id'] = is_null($user->candidate) ? '': $user->candidate->discord_id;
+
+            $score = 0;
+            if(!empty($answers))
+            {
+                foreach ($answers as $key => $answer) {
+                    if($answer->isCorrect())
+                    {
+                        $score = $score + 1;
+                    }
+                }
+            }
+            $obj['score'] = (int)$score*100/50;
+            if($obj['questions']>0)
+            {
+                array_push($result,$obj);
+            }
+        }
+
+        usort($result, function ($a, $b) {
+            return $b['score'] - $a['score'];
+        });
+
+
+        return view('phase2',compact('result'));
+
+
     }
 
     /**
