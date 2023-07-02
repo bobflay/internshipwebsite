@@ -20,12 +20,12 @@ class ScreenCaptureController extends Controller
 
     public function store(Request $request)
     {
-        Log::info('inside store');
         $request->validate([
             'image' => 'required|string',
         ]);
-        Log::info('after validation');
+
         $user = auth()->user();
+        Log::info("A screen capture is uploaded by ".$user->name);
     
         $base64Image = $request->input('image');
         

@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('answer',[QuestionController::class,'answer']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user', [AuthController::class, 'user']);
+    Route::post('block', [AuthController::class, 'block']);
     Route::post('capture',[ScreenCaptureController::class,'store']);
 
 

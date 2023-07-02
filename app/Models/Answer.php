@@ -25,4 +25,9 @@ class Answer extends Model
     {
         return $this->belongsTo(Choice::class);
     }
+
+    public function isCorrect()
+    {
+        return $this->choice->correct;
+    }
 }

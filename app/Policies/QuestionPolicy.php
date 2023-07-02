@@ -18,7 +18,7 @@ class QuestionPolicy extends GeneralPolicy
      */
     public function __construct()
     {
-        //
+        
     }
 
 
@@ -30,8 +30,7 @@ class QuestionPolicy extends GeneralPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
-
+        return $this->isAdmin($user);
     }
 
     /**

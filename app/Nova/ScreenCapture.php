@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\DateTime;
+
 use Laravel\Nova\Fields\BelongsTo;
 
 class ScreenCapture extends Resource
@@ -44,6 +46,7 @@ class ScreenCapture extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Image::make('location')->disk('public'),
+            DateTime::make('created_at'),
             BelongsTo::make('user')
         ];
     }

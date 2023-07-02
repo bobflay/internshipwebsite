@@ -33,6 +33,11 @@ class Candidate extends Model
         return $this->belongsTo(Category::class,'program');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class,'email');
+    }
+
 
     public function formatPhoneNumber($value)
     {

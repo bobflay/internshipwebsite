@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Candidate;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,27 +21,101 @@ class CandidateController extends Controller
         if(request()->key=='XpertBot_Academy@2023')
         {
             if(request()->user){
-                $candidates = Candidate::where('email' , '=', request()->user)->orWhere('phone', request()->user)->orWhere('discord_id', request()->user)->first();
-                if ($candidates !== null) {
-                    $candidates = $candidates->makeHidden(['password']);
-                    return response()->json($candidates);
+                $candidate = Candidate::where('email' , '=', request()->user)->orWhere('phone', request()->user)->orWhere('discord_id', request()->user)->first();
+                if ($candidate !== null) {
+                    $candidate->makeHidden(['password']);
+                    $candidate = $this->addScoreToCandidate($candidate);
+                    return response()->json($candidate);
+                    
                 } else {
                     return response()->json(['msg' => 'Err 404']);
                 }
 
             } else if(request()->registered==0) {
                 $candidates = Candidate::where('registered', 0)->get();
-                $candidates = $candidates->makeHidden(['password','id','email','scholarship','registered','transaction','program','linkedin','github','created_at','updated_at','discord_id']);
-                return response()->json($candidates);
+                $candidates->makeHidden(['password','scholarship','registered','transaction','program','linkedin','github','created_at','updated_at','discord_id']);
             }
              else {
                 $candidates = Candidate::all();
-                $candidates = $candidates->makeHidden(['password']);
-                return response()->json($candidates);
+                $candidates->makeHidden(['password']);
             }
+            
+            foreach ($candidates as $key => $candidate) {
+                $user = User::where('email',$candidate->email)->get()->first();
+                if(!is_null($user))
+                {
+                    $answers = $user->answers;
+                    $score = 0;
+        
+                    if(!empty($answers))
+                    {
+                        foreach ($answers as $key => $answer) {
+                            if($answer->isCorrect())
+                            {
+                                $score = $score + 1;
+                            }
+                        }
+                    }
+        
+                    $candidate->score = $score;
+                    $candidate->grade = (int) $score*100/50 . "/100";
+        
+                    if($score>10)
+                    {
+                        $candidate->passed = true;
+                    }else{
+                        $candidate->passed = false;
+                    }
+        
+                }else{
+                    $candidate->score = 0;
+                    $candidate->passed = false;
+                }
+            }
+
+
+
+            return response()->json($candidates);
 
         }
 
+    }
+
+
+    public function addScoreToCandidate($candidate)
+    {
+        $user = User::where('email',$candidate->email)->get()->first();
+        if(!is_null($user))
+        {
+            $answers = $user->answers;
+            $score = 0;
+
+            if(!empty($answers))
+            {
+                foreach ($answers as $key => $answer) {
+                    if($answer->isCorrect())
+                    {
+                        $score = $score + 1;
+                    }
+                }
+            }
+
+            $candidate->score = $score;
+            $candidate->grade = (int) $score*100/50 . "/100";
+
+            if($score>10)
+            {
+                $candidate->passed = true;
+            }else{
+                $candidate->passed = false;
+            }
+
+        }else{
+            $candidate->score = 0;
+            $candidate->passed = false;
+        }
+        return $candidate;
+     
     }
 
     /**

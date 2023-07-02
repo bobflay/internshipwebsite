@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\Candidate;
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
-
+use Log;
 
 class QuestionController extends Controller
 {
@@ -22,31 +23,40 @@ class QuestionController extends Controller
         $user = auth()->user();
         $candidate = Candidate::where('email',$user->email)->first();
         $category = $candidate->category;
-        // $questions = $candidate->category->questions()
-        // ->with(['choices' => function ($query) {
-        //     $query->select('id', 'content','question_id')->get()->shuffle();
-        // }])->take(5)->get();
 
-        $questions = Question::where('category_id',$category->id)->take(5)->get();
-        $shuffled_questions = [];
-        foreach ($questions as $question) {
-            $choices = $question->choices->toArray();
-            shuffle($choices);
-            $question = $question->toArray();
-            $question['choices'] = $choices;
-            array_push($shuffled_questions,$question);
+        if(true)
+        {
+            $questions = Question::where('category_id',$category->id)->whereDoesntHave('answers',function($query) use ($user){
+                    $query->where('user_id',$user->id);
+            })->take(50)->get();
+
+            $shuffled_questions = [];
+    
+            foreach ($questions as $question) {
+                $choices = $question->choices->toArray();
+                shuffle($choices);
+                $question = $question->toArray();
+                $question['choices'] = $choices;
+                array_push($shuffled_questions,$question);
+            }
+
+            shuffle($shuffled_questions);
+
+            return response()->json([
+                'data' => [],
+                'message' => 'Successfully retrieved questions.',
+            ]);
+
         }
 
+        
 
-        return response()->json([
-            'data' => $shuffled_questions,
-            'message' => 'Successfully retrieved questions.',
-        ]);
     }
 
     public function answer(Request $request)
     {
         $user = auth()->user();
+        Log::info("Answer is submitted by ".$user->name);
 
         $data = $request->validate([
             'question_id' => 'required|integer',
