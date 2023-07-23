@@ -11,7 +11,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Textarea;
-
+use Laravel\Nova\Fields\BelongsToMany;
 use App\Nova\Filters\CandidateRegistered;
 
 class Candidate extends Resource
@@ -114,7 +114,21 @@ class Candidate extends Resource
             Textarea::make('comment')->canSee(function ($request) {
                 return ! $this->checkIfAdmin($request);
             }),
-
+            Boolean::make('passed')->canSee(function ($request) {
+                return ! $this->checkIfAdmin($request);
+            })->sortable(),
+            BelongsToMany::make('Projects')
+            ->fields(function () {
+                return [
+                    Select::make('Role')->options([
+                        'frontend' => 'Front-end',
+                        'backend' => 'Back-end',
+                        'mobile' => 'Mobile Developer',
+                        'quality' => 'Quality Assurance',
+                        'projectManager' => 'Project Manager'
+                    ]),
+                ];
+            }),
 
         ];
     }

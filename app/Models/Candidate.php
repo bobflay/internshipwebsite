@@ -38,6 +38,11 @@ class Candidate extends Model
         return $this->belongsTo(User::class,'email');
     }
 
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class)->withPivot('role');
+    }
+
 
     public function formatPhoneNumber($value)
     {
