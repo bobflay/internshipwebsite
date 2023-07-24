@@ -23,6 +23,8 @@ Route::get('/',[HomeController::class,'index']);
 
 Route::get('/candidates/{id}',[CandidateController::class,'show']);
 
+Route::get('/portfolios/{id}',[PortfolioController::class,'show']);
+
 Route::get('/terms',function(){
     return view('terms_app');
 });
