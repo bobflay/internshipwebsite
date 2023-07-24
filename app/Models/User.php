@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Answer::class);
     }
 
+    public function batches()
+    {
+        return $this->belongsToMany(Batch::class);
+    }
+
 
     public function screenCaptures()
     {
