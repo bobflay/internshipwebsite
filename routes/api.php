@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\API\QuestionController;
 use App\Http\Controllers\API\ScreenCaptureController;
+use App\Http\Controllers\API\ReceiptController;
 
 use App\Http\Controllers\API\AuthController;
 
@@ -27,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/candidates/discord',[CandidateController::class,'updateDiscord']);
 Route::get('/candidates/csv',[CandidateController::class,'exportCSV']);
+Route::get('/candidates/csv2',[CandidateController::class,'exportCSVall']);
 Route::apiResource('candidates', CandidateController::class);
 
 
@@ -42,6 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('user', [AuthController::class, 'user']);
     Route::post('block', [AuthController::class, 'block']);
     Route::post('capture',[ScreenCaptureController::class,'store']);
+    Route::post('receipt',[ReceiptController::class,'store']);
 
 
 

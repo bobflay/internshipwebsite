@@ -66,7 +66,9 @@ class User extends Resource
             Boolean::make('blocked'),
             HasOne::make('Candidate'),
             HasMany::make('Answers'),
-            HasMany::make('ScreenCaptures')
+            HasMany::make('ScreenCaptures'),
+            HasMany::make('Receipts')
+
         ];
     }
 

@@ -8,16 +8,33 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Candidate;
 use App\Models\Category;
-
+use App\Models\Batch;
 use Log;
+
+
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
+
         $credentials = $request->only('email', 'password');
+        $batch = Batch::where('name','Summer 2023')->first();
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            //check if user belongs to Bach 2 and doesn't submit a receipt forward to the next page
+            if($user->batches()->first()->id == $batch->id)
+            {
+                //check if the user uploaded a receipt
+                if( $user->receipts->count() > 0 )
+                {
+                    return response()->json(['error' => 'Reviewing Your Registration Data'], 403);
+                }else{
+                    $accessToken = $user->createToken('authToken')->plainTextToken;
+                    return response()->json(['access_token' => $accessToken], 201);
+                }
+            }
+
             if(!$user->blocked)
             {
                 $accessToken = $user->createToken('authToken')->plainTextToken;
@@ -64,25 +81,50 @@ class AuthController extends Controller
 
     public function registerNew(Request $request)
     {
+        Log::info($request->all());
+
+        $batch = Batch::where('name','Summer 2023')->first();
+
         $new_user = new User();
         $user = User::where('email',$request->email)->first();
+
         if($user)
         {
-            return response()->json([
-                'message'=>'User already registered!'
-            ]);
+            if($user->receipts->count()>0)
+            {
+                return response()->json([
+                    'message'=>'User already registered!'
+                ],401);
+
+            }else{
+
+                $accessToken = $user->createToken('authToken')->plainTextToken;
+
+                return response()->json([
+                    'message'=>'User Registered Successfully',
+                    'accessToken'=>$accessToken
+                ]);
+            }
+
+
 
         }else{
-            if($request->password != $request->confirm_password)
+            if($request->password != $request->password_confirm)
             {
                 return response()->json([
                     'message' => 'Password and confrim password are not identical'
-                ]);
+                ],401);
             }
+
             $new_user->email = $request->email;
             $new_user->password = bcrypt($request->password);
             $new_user->name = $request->name;
             $new_user->save();
+
+            $new_user->batches()->attach($batch);
+
+
+            $accessToken = $new_user->createToken('authToken')->plainTextToken;
 
             $candidate = new Candidate();
             $candidate->email = $new_user->email;
@@ -96,11 +138,11 @@ class AuthController extends Controller
 
             return response()->json([
                 'message'=>'User Registered Successfully',
-                'user'=>$user,
-                'candidate'=>$candidate
+                'accessToken'=>$accessToken
             ]);
 
         }
 
     }
+
 }

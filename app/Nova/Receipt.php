@@ -4,30 +4,27 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Markdown;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\Select;
-
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\BelongsTo;
 
-class Project extends Resource
+
+class Receipt extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Project::class;
+    public static $model = \App\Models\Receipt::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -35,7 +32,7 @@ class Project extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id',
     ];
 
     /**
@@ -48,26 +45,9 @@ class Project extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
-            Markdown::make('description'),
-            Image::make('logo')->disk('public')->path('projects')->sortable()->rules('image', 'max:2048'),
-            BelongsTo::make('Topic'),
-            BelongsToMany::make('Candidates')
-            ->fields(function () {
-                return [
-                    Select::make('Role')->options([
-                        'frontend' => 'Front-end',
-                        'backend' => 'Back-end',
-                        'mobile' => 'Mobile Developer',
-                        'quality' => 'Quality Assurance',
-                        'projectManager' => 'Project Manager'
-                    ]),
-                ];
-            }),
-            Text::make('Participants',function(){
-                return $this->candidates()->count();
-            })
-
+            Image::make('location')->disk('public'),
+            DateTime::make('created_at'),
+            BelongsTo::make('user')
         ];
     }
 

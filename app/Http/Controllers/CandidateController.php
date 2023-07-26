@@ -311,4 +311,36 @@ class CandidateController extends Controller
 
              return response()->stream($callback, 200, $headers);
     }
+    public function exportCSVall()
+    {
+        $candidates=Candidate::all();
+        $fileName = 'contacts.csv';
+
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+
+        $columns = array('Name', 'Phone','Email');
+
+        $callback = function() use($candidates, $columns) {
+                 $file = fopen('php://output', 'w');
+                 fputcsv($file, $columns);
+
+                 foreach ($candidates as $candidate) {
+                     $row['Name']  = 'XpertBot - '.$candidate->name;
+                     $row['Phone']    = $candidate->phone;
+                     $row['Email'] = $candidate->email;
+
+                     fputcsv($file, array($row['Name'], $row['Phone'],$row['Email']));
+                 }
+
+                 fclose($file);
+             };
+
+             return response()->stream($callback, 200, $headers);
+    }
 }
