@@ -26,6 +26,9 @@ class Choice extends Resource
      */
     public static $title = 'content';
 
+    public static $group = 'Exam';
+
+
     /**
      * The columns that should be searched.
      *

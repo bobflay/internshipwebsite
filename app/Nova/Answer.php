@@ -24,6 +24,9 @@ class Answer extends Resource
      */
     public static $title = 'id';
 
+    public static $group = 'Exam';
+
+
     /**
      * The columns that should be searched.
      *

@@ -31,7 +31,7 @@ class CandidatePolicy extends GeneralPolicy
      */
     public function view(User $user, Candidate $candidate)
     {
-        return $this->isAdmin($user)|| $user->email == $candidate->email;
+        return $this->isAdmin($user)|| true;
     }
 
     /**

@@ -13,6 +13,10 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsToMany;
 use App\Nova\Filters\CandidateRegistered;
+use App\Nova\filters\PassedFilter;
+use App\Nova\Lenses\PassedCandidates;
+use App\Models\Project;
+use Log;
 
 class Candidate extends Resource
 {
@@ -46,7 +50,25 @@ class Candidate extends Resource
         {
             return $query;
         }else{
-            return $query->where('email', $request->user()->email);
+
+            $userEmail = $request->user()->email;
+
+            // Filter candidates with the same email as the logged-in user.
+            $query = $query->where('email', $userEmail);
+    
+            // Get the projects related to the user's email.
+            $userProjects = Project::whereHas('candidates', function ($candidateQuery) use ($userEmail) {
+                $candidateQuery->where('email', $userEmail);
+            })->pluck('projects.id'); // Specify the table name (projects) before the column name (id).
+    
+            // Include candidates from the same projects as the user.
+            $query = $query->orWhereHas('projects', function ($projectQuery) use ($userProjects) {
+                $projectQuery->whereIn('project_id', $userProjects);
+            });
+    
+            return $query;
+        
+        
         }
     }
 
@@ -153,6 +175,7 @@ class Candidate extends Resource
     public function filters(Request $request)
     {
         return [
+            // PassedFilter::class
             // new CandidateRegistered,
         ];
     }
@@ -165,7 +188,9 @@ class Candidate extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new PassedCandidates()
+        ];
     }
 
     /**

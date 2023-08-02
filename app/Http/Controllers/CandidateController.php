@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Candidate;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Exception;
@@ -77,8 +78,7 @@ class CandidateController extends Controller
 
             return response()->json($candidates);
 
-        }
-
+        } 
     }
 
 

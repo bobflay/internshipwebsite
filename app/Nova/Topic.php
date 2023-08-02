@@ -49,6 +49,10 @@ class Topic extends Resource
         ];
     }
 
+
+    public static $group = 'Project';
+
+
     /**
      * Get the cards available for the request.
      *

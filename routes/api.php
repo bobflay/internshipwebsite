@@ -6,6 +6,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\API\QuestionController;
 use App\Http\Controllers\API\ScreenCaptureController;
 use App\Http\Controllers\API\ReceiptController;
+use App\Http\Controllers\API\DashboardController;
 
 use App\Http\Controllers\API\AuthController;
 
@@ -46,6 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('capture',[ScreenCaptureController::class,'store']);
     Route::post('receipt',[ReceiptController::class,'store']);
 
+    Route::get('dashboard',[DashboardController::class,'index']);
 
 
 });

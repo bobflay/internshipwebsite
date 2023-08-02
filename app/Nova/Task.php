@@ -5,31 +5,30 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\HasMany;
-
+use App\Models\User;
+use App\Models\Project;
 use Laravel\Nova\Fields\Select;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Project extends Resource
+class Task extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Project::class;
+    public static $model = \App\Models\Task::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -37,7 +36,7 @@ class Project extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'title',
     ];
 
     public static $group = 'Project';
@@ -49,12 +48,11 @@ class Project extends Resource
         {
             return $query;
         }else{
-            return $query->whereHas('candidates', function ($candidateQuery) use ($request) {
+            return $query->whereHas('user', function ($candidateQuery) use ($request) {
                 $candidateQuery->where('email', $request->user()->email);
             });
         }
     }
-
 
     /**
      * Get the fields displayed by the resource.
@@ -65,28 +63,31 @@ class Project extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
-            Markdown::make('description'),
-            Image::make('logo')->disk('public')->path('projects')->sortable()->rules('image', 'max:2048'),
-            BelongsTo::make('Topic'),
-            BelongsToMany::make('Candidates')
-            ->fields(function () {
-                return [
-                    Select::make('Role')->options([
-                        'frontend' => 'Front-end',
-                        'backend' => 'Back-end',
-                        'mobile' => 'Mobile Developer',
-                        'quality' => 'Quality Assurance',
-                        'projectManager' => 'Project Manager'
-                    ]),
-                ];
-            }),
-            Text::make('Participants',function(){
-                return $this->candidates()->count();
-            }),
-            HasMany::make('Tasks')
+            ID::make()->sortable(),
 
+            Text::make('Title'),
+
+            Select::make('State')->options([
+                'new' => 'New',
+                'active' => 'Active',
+                'dev done' => 'Dev Done',
+                'qA done' => 'QA Done',
+                'closed' => 'Closed',
+            ])->displayUsingLabels(),
+
+            BelongsTo::make('User')
+                ->searchable()
+                ->sortable(),
+
+            BelongsTo::make('Project')
+                ->searchable()
+                ->sortable(),
+
+            Date::make('Due Date'),
+
+            Trix::make('Description'),
+
+            Text::make('Result')->nullable(),
         ];
     }
 

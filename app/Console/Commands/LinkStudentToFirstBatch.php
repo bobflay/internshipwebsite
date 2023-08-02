@@ -37,7 +37,19 @@ class LinkStudentToFirstBatch extends Command
 
         // Loop through the users and link them to the first batch
         foreach ($users as $user) {
-            $user->batches()->attach($firstBatch->id);
+            try {
+                $user->batches()->attach($firstBatch->id,[
+                    'category_id'=>$user->candidate()->first()->category()->first()->id,
+                    'passed'=>$user->candidate->passed,
+                    'registered'=>$user->candidate->registered,
+                    'scholarship'=>$user->candidate->scholarship,
+                    'comment'=>$user->candidate->comment
+                ]);
+                //code...
+            } catch (\Throwable $th) {
+                var_dump($user->toArray());
+            }
+
         }
 
         return Command::SUCCESS;

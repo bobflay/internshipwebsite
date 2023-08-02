@@ -12,6 +12,14 @@ class Batch extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot(
+            [
+                'category_id',
+                'passed',
+                'registered',
+                'scholarship',
+                'comment'
+            ]
+        )->withTimestamps();
     }
 }

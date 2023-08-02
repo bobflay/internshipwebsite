@@ -5,8 +5,11 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Boolean;
+use App\Models\Category;
 use Laravel\Nova\Fields\BelongsToMany;
-
+use Log;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Batch extends Resource
@@ -46,6 +49,7 @@ class Batch extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('name'),
             BelongsToMany::make('users')
+                    ->fields(new BatchCandidateFields)
         ];
     }
 

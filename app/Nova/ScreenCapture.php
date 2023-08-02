@@ -35,6 +35,9 @@ class ScreenCapture extends Resource
         'id',
     ];
 
+    public static $group = 'Exam';
+
+
     /**
      * Get the fields displayed by the resource.
      *
