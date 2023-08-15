@@ -67,7 +67,8 @@ class User extends Resource
             HasOne::make('Candidate'),
             HasMany::make('Answers'),
             HasMany::make('ScreenCaptures'),
-            HasMany::make('Receipts')
+            HasMany::make('Receipts'),
+            HasMany::make('Tasks')
 
         ];
     }

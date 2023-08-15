@@ -55,7 +55,7 @@ class AuthController extends Controller
         {
             if($user)
             {
-                $user->blocked = true;
+                $user->blocked = false;
                 $user->save();
                 return response()->json([
                     'status'=>'success'

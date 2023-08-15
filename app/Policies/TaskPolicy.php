@@ -42,8 +42,7 @@ class TaskPolicy extends GeneralPolicy
 
     public function update(User $user, Task $task)
     {
-
-        return $this->isAdmin($user);
+        return true;
     }
 
 

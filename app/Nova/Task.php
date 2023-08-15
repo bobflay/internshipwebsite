@@ -36,7 +36,7 @@ class Task extends Resource
      * @var array
      */
     public static $search = [
-        'title',
+        'title'
     ];
 
     public static $group = 'Project';
@@ -65,7 +65,9 @@ class Task extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Title'),
+            Text::make('Title')->readonly(function ($request) {
+                return $this->checkIfAdmin($request);
+            }),
 
             Select::make('State')->options([
                 'new' => 'New',
@@ -77,18 +79,31 @@ class Task extends Resource
 
             BelongsTo::make('User')
                 ->searchable()
-                ->sortable(),
+                ->sortable()->readonly(function ($request) {
+                    return $this->checkIfAdmin($request);
+                }),
 
             BelongsTo::make('Project')
                 ->searchable()
-                ->sortable(),
+                ->sortable()->readonly(function ($request) {
+                    return $this->checkIfAdmin($request);
+                }),
 
-            Date::make('Due Date'),
+            Date::make('Due Date')->readonly(function ($request) {
+                return $this->checkIfAdmin($request);
+            }),
 
-            Trix::make('Description'),
+            Trix::make('Description')->readonly(function ($request) {
+                return $this->checkIfAdmin($request);
+            }),
 
             Text::make('Result')->nullable(),
         ];
+    }
+
+    public function checkIfAdmin($request)
+    {
+        return ! in_array($request->user()->email,['bob.fleifel@gmail.com','aliredahajj066@gmail.com']);
     }
 
     /**

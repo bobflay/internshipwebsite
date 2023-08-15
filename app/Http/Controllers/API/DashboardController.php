@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-
+use Log;
 class DashboardController extends Controller
 {
     public function __construct()
@@ -18,12 +18,25 @@ class DashboardController extends Controller
 
         $projects = auth()->user()->candidate()->first()->projects;
         $tasks = auth()->user()->tasks()->with('project')->get();
+        $formatted_tasks = [];
+
+
+        foreach ($tasks as $key => $task) {
+            $obj = [];
+            $obj['id']=$task->id;
+            $obj['title']=$task->title;
+            $obj['description']=$task->description;
+            $obj['due_date'] = $task->due_date->format('Y-m-d');
+            $obj['state'] = $task->state;
+            $obj['project'] = $task->project;
+            array_push($formatted_tasks,$obj);
+        }
 
         $response = [
             'balance'=>0,
             'jobs'=>0,
             'projects'=>$projects,
-            'tasks'=>$tasks
+            'tasks'=>$formatted_tasks
         ];
 
         return response()->json($response);
