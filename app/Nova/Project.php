@@ -70,6 +70,7 @@ class Project extends Resource
             Markdown::make('description'),
             Image::make('logo')->disk('public')->path('projects')->sortable()->rules('image', 'max:2048'),
             BelongsTo::make('Topic'),
+            Text::make('link')->hideFromIndex(),
             BelongsToMany::make('Candidates')
             ->fields(function () {
                 return [
@@ -131,6 +132,8 @@ class Project extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            new Actions\DeployProject
+        ];
     }
 }

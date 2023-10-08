@@ -120,8 +120,9 @@ class AuthController extends Controller
             $new_user->password = bcrypt($request->password);
             $new_user->name = $request->name;
             $new_user->save();
+            $category = Category::where('name',$request->category)->first();
 
-            $new_user->batches()->attach($batch);
+            $new_user->batches()->attach($batch,["category_id"=>$category->id,"passed"=>0,"registered"=>0,"scholarship"=>0]);
 
 
             $accessToken = $new_user->createToken('authToken')->plainTextToken;
@@ -131,7 +132,6 @@ class AuthController extends Controller
             $candidate->name = $new_user->name;
             $candidate->password = bcrypt($request->password);
             $candidate->phone = $request->phone;
-            $category = Category::where('name',$request->category)->first();
             $candidate->category()->associate($category);
             $candidate->save();
 

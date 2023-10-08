@@ -11,7 +11,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use App\Models\User;
 use App\Models\Project;
 use Laravel\Nova\Fields\Select;
-
+use Str;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Task extends Resource
@@ -97,7 +97,10 @@ class Task extends Resource
                 return $this->checkIfAdmin($request);
             }),
 
-            Text::make('Result')->nullable(),
+            Text::make('Result')->displayUsing(function ($value) {
+                // Limit the displayed length of the name to, for example, 20 characters.
+                return Str::limit($value, 10);
+            })->nullable(),
         ];
     }
 

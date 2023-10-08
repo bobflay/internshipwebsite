@@ -13,6 +13,14 @@ class Task extends Model
         'due_date' => 'date',
     ];
 
+    protected $fillable = [
+        'project_id',
+        'title',
+        'due_date',
+        'description',
+        'state'
+    ];
+
 
     public function user()
     {
