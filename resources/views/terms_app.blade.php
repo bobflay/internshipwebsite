@@ -48,8 +48,10 @@
 
         <h2>3. Privacy and Data Collection</h2>
         <p>
-            a. Personal Information: The App may collect personal information, including but not limited to your name, photograph, and test results. By using the App, you consent to the collection, storage, and processing of your personal information for the purposes outlined in these Terms and in accordance with the App's Privacy Policy.<br>
-            b. Facial Recognition: The App uses facial recognition technology to detect cheating during exams. Your photograph will be captured during the test, and the App will analyze it to identify any suspicious behavior. The photograph will be securely stored and used solely for the purpose of cheating detection.
+        a. Personal Information: The App may collect personal information, including but not limited to your name, photograph, and test results. By using the App, you consent to the collection, storage, and processing of your personal information for the purposes outlined in these Terms and in accordance with the App's Privacy Policy.<br>
+        b. Facial Recognition: The App uses facial recognition technology to detect cheating during exams. Your photograph will be captured during the test, and the App will analyze it to identify any suspicious behavior.<br>
+        Data Storage Duration: The face data captured during exams will be securely stored for a period of 24h, which is determined by our security and operational needs. After this period, the face data will be automatically deleted from our servers.<br>
+        We are committed to safeguarding your data and ensuring that it is not stored indefinitely, in accordance with best practices and privacy regulations.
         </p>
 
         <h2>4. Intellectual Property</h2>
@@ -72,7 +74,7 @@
 
         <h2>7. Governing Law</h2>
         <p>
-            These Terms shall be governed by and construed in accordance with the laws of [insert applicable jurisdiction]. Any disputes arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts in [insert applicable jurisdiction].
+            These Terms shall be governed by and construed in accordance with the laws of state of California. Any disputes arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts in San Francisco County.
         </p>
     </div>
 </body>
