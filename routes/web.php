@@ -19,6 +19,17 @@ use App\Models\User;
 |
 */
 
+Route::get('/app',function(){
+    return view('app');
+});
+Route::get('/android',function(){
+    return redirect('https://play.google.com/store/apps/details?id=com.xpertbotacademy.exams');
+});
+
+Route::get('/ios',function(){
+    return redirect('https://apps.apple.com/kh/app/xpertbot/id6450605037');
+});
+
 Route::get('/',[HomeController::class,'index']);
 
 Route::get('/certificates/{id}',[CandidateController::class,'certificate']);
