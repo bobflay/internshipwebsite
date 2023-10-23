@@ -115,6 +115,7 @@ class Candidate extends Resource
             Boolean::make('registered')->canSee(function ($request) {
                 return ! $this->checkIfAdmin($request);
             }),
+            Boolean::make('completed'),
             BelongsTo::make('category')->readonly(function ($request) {
                 return $this->checkIfAdmin($request);
             }),

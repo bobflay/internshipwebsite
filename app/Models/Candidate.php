@@ -28,6 +28,11 @@ class Candidate extends Model
         );
     }
 
+    public function certificates()
+    {
+        return $this->hasMany(Student::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class,'program');

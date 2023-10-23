@@ -13,4 +13,9 @@ class Student extends Model
     protected $casts = [
         'dob' => 'date'
     ];
+
+    public function candidate()
+    {
+        return $this->belongsTo(Candidate::class);
+    }
 }

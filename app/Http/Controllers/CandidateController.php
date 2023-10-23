@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Candidate;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Student;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -276,6 +277,34 @@ class CandidateController extends Controller
             ]);
 
         }
+    }
+
+    public function certificate($id)
+    {
+        $student = Student::where('uuid',$id)->get()->first();
+        $candidate = $student->candidate;
+        $role = $candidate->projects->first()->pivot->role;
+        switch ($role) {
+            case 'backend':
+                $courses = "Git & Laravel";
+                $role = "Backend Development";
+                break;
+            case 'frontend':
+                $courses = "Git & Vuejs";
+                $role = "Frontend Development";
+            
+            case 'mobile':
+                $courses = "Git & Flutter";
+                $role = "Mobile Development";
+            
+            default:
+                # code...
+                break;
+        }
+
+        $user = User::where('email',$candidate->email)->get()->first();
+        $url = $user->tasks->first()->result;
+        return view('NewCertificates',compact('student','url','role','courses'));
     }
 
 

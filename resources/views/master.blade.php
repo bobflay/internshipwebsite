@@ -228,9 +228,9 @@
                             </a>
                         </li>
                     </ul> --}}
-                    {{-- <span class="float-right" style="margin-left: auto;">
+                    <span class="float-right" style="margin-left: auto;">
                         <a href="/register" class="btn btn-main btn-small"><i class="fa fa-sign-in-alt mr-2"></i>Register</a>
-                    </span> --}}
+                    </span>
 
                 </div> <!-- / .navbar-collapse -->
 

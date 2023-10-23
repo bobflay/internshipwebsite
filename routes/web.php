@@ -21,6 +21,8 @@ use App\Models\User;
 
 Route::get('/',[HomeController::class,'index']);
 
+Route::get('/certificates/{id}',[CandidateController::class,'certificate']);
+
 Route::get('/candidates/{id}',[CandidateController::class,'show']);
 
 Route::get('/portfolios/{id}',[PortfolioController::class,'show']);
