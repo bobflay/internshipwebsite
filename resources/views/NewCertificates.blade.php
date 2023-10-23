@@ -73,7 +73,7 @@
     </head>
     <body>
         <div>
-            <a href="https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=XpertBot Web Developer&organizationId=20546595&issueYear=2022&issueMonth=9&certUrl=https://xpertbotacademy.online/students/{{$student->uuid}}&certId={{$student->uuid}}">
+            <a href="https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=XpertBot".{{$role}}."&organizationId=20546595&issueYear=2023&issueMonth=10&certUrl=https://xpertbotacademy.online/certificates/{{$student->uuid}}&certId={{$student->uuid}}">
                 <img src="https://download.linkedin.com/desktop/add2profile/buttons/en_US.png " alt="LinkedIn Add to Profile button">
             </a>
         </div>
