@@ -41,11 +41,13 @@ class ConvertPassedCandidateToStudent extends Command
                 $student->candidate_id = $candidate->id;
                 $student->name = $candidate->name;
                 $this->output->write("Graduating ".$student->name."\n");
+                $this->output->write("Certificate: https://xpertbotacademy.online/certificates/".$uuid ."\n");
                 $student->uuid = $uuid;
                 $student->project = $candidate->projects->first()->name;
                 $student->dob = $candidate->dob;
                 $student->save();
             }
+            sleep(1);
 
         }
         
