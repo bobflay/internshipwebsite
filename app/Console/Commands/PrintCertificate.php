@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Student;
 use App;
+use File;
 class PrintCertificate extends Command
 {
     /**
