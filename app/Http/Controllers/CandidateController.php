@@ -302,6 +302,12 @@ class CandidateController extends Controller
                 break;
         }
 
+        if($candidate->email =='itanim257@gmail.com')
+        {
+            $role = "Full Stack Development";
+            $courses = "Git, Expressjs, Vuejs & MongoDB";
+        }
+
         $user = User::where('email',$candidate->email)->get()->first();
         $url = $user->tasks->first()->result;
         return view('NewCertificates',compact('student','url','role','courses'));
