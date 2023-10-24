@@ -29,12 +29,18 @@ class PrintCertificate extends Command
     public function handle()
     {
         $students = Student::all();
-        foreach($students as $student)
-        {
-            $url = 'https://xpertbotacademy.online/students/'.$student->uuid;
-            $snappy = App::make('snappy.image');
-            $snappy->generate($url, public_path($student->uuid.'.jpg'));
+        
+        foreach ($students as $student) {
+            $url = 'https://xpertbotacademy.online/students/' . $student->uuid;
+            $outputPath = public_path($student->uuid . '.jpg');
+            
+            if (!File::exists($outputPath)) {
+                $snappy = App::make('snappy.image');
+                $snappy->generate($url, $outputPath);
+            }
         }
+        
         return 0;
     }
+    
 }
