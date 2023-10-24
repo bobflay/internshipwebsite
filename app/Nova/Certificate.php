@@ -57,12 +57,12 @@ class Certificate extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('URL',function($data){
-                return 'https://xpertbotacademy.online/certificates/'.$data->uuid;
-            })
-
+            Text::make('URL', function () {
+                return '<a href="https://xpertbotacademy.online/certificates/' . $this->uuid . '" target="_blank">'.$this->name.'</a>';
+            })->asHtml(),
         ];
     }
+    
 
     /**
      * Get the cards available for the request.
