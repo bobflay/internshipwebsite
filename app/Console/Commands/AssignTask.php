@@ -7,7 +7,7 @@ use App\Models\Candidate;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
-
+use App\Jobs\SendNotification;
 
 class AssignTask extends Command
 {
@@ -32,12 +32,12 @@ class AssignTask extends Command
      */
     public function handle()
     {
-        //$candidates = Candidate::where('created_at','>=','2023-10-01 00:00:00')->where('registered',1)->where('program',4)->get();
-        $candidates = Candidate::where('id','558')->get();
+        $candidates = Candidate::where('id','679')->get();
         $task = Task::find(393);
         foreach ($candidates as $key => $candidate) {
             try {
-
+                    $user = $candidates->user;
+                    dd($user);
                     $user = User::where('email',$candidate->email)->first();
                     $user->tasks()->create([
                         'project_id'=>$candidate->projects->first()->id,
@@ -46,8 +46,6 @@ class AssignTask extends Command
                         'description'=>$task->description,
                         'state'=>$task->state
                     ]);
-                
-
             } catch (\Throwable $th) {
                 var_dump($th);
             }
