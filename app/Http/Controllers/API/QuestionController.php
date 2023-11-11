@@ -23,7 +23,7 @@ class QuestionController extends Controller
         $user = auth()->user();
         $candidate = Candidate::where('email',$user->email)->first();
         $category = $candidate->category;
-
+        
         if(true)
         {
             $questions = Question::where('category_id',$category->id)->whereDoesntHave('answers',function($query) use ($user){
@@ -43,7 +43,7 @@ class QuestionController extends Controller
             shuffle($shuffled_questions);
 
             return response()->json([
-                'data' => [],
+                'data' => $shuffled_questions,
                 'message' => 'Successfully retrieved questions.',
             ]);
 

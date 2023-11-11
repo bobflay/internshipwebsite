@@ -56,15 +56,15 @@ class Candidate extends Resource
             // Filter candidates with the same email as the logged-in user.
             $query = $query->where('email', $userEmail);
     
-            // Get the projects related to the user's email.
-            $userProjects = Project::whereHas('candidates', function ($candidateQuery) use ($userEmail) {
-                $candidateQuery->where('email', $userEmail);
-            })->pluck('projects.id'); // Specify the table name (projects) before the column name (id).
+            // // Get the projects related to the user's email.
+            // $userProjects = Project::whereHas('candidates', function ($candidateQuery) use ($userEmail) {
+            //     $candidateQuery->where('email', $userEmail);
+            // })->pluck('projects.id'); // Specify the table name (projects) before the column name (id).
     
-            // Include candidates from the same projects as the user.
-            $query = $query->orWhereHas('projects', function ($projectQuery) use ($userProjects) {
-                $projectQuery->whereIn('project_id', $userProjects);
-            });
+            // // Include candidates from the same projects as the user.
+            // $query = $query->orWhereHas('projects', function ($projectQuery) use ($userProjects) {
+            //     $projectQuery->whereIn('project_id', $userProjects);
+            // });
     
             return $query;
         
@@ -115,7 +115,9 @@ class Candidate extends Resource
             Boolean::make('registered')->canSee(function ($request) {
                 return ! $this->checkIfAdmin($request);
             }),
-            Boolean::make('completed'),
+            Boolean::make('completed')->readonly(function ($request) {
+                return $this->checkIfAdmin($request);
+            }),
             BelongsTo::make('category')->readonly(function ($request) {
                 return $this->checkIfAdmin($request);
             }),

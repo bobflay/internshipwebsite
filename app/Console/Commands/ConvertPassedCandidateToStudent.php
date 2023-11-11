@@ -30,27 +30,26 @@ class ConvertPassedCandidateToStudent extends Command
      */
     public function handle()
     {
-        $candidates  = Candidate::where('completed',true)->get();
-
-        foreach($candidates as $candidate)
-        {
-            if(!is_null($candidate->projects->first()))
-            {
+        $candidates = Candidate::where('completed', true)->get();
+    
+        foreach ($candidates as $candidate) {
+            // Check if a student with the same candidate_id already exists
+            if (!Student::where('candidate_id', $candidate->id)->exists() && !is_null($candidate->projects->first())) {
                 $uuid = Str::uuid()->toString();
                 $student = new Student();
                 $student->candidate_id = $candidate->id;
                 $student->name = $candidate->name;
-                $this->output->write("Graduating ".$student->name."\n");
-                $this->output->write("Certificate: https://xpertbotacademy.online/certificates/".$uuid ."\n");
+                $this->output->write("Graduating " . $student->name . "\n");
+                $this->output->write("Certificate: https://xpertbotacademy.online/certificates/" . $uuid . "\n");
                 $student->uuid = $uuid;
                 $student->project = $candidate->projects->first()->name;
                 $student->dob = $candidate->dob;
                 $student->save();
             }
-            sleep(1);
-
+            
         }
-        
+    
         return Command::SUCCESS;
     }
+    
 }

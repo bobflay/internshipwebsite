@@ -292,11 +292,11 @@ class CandidateController extends Controller
             case 'frontend':
                 $courses = "Git & Vuejs";
                 $role = "Frontend Development";
-            
+                break;
             case 'mobile':
                 $courses = "Git & Flutter";
                 $role = "Mobile Development";
-            
+                break;
             default:
                 # code...
                 break;

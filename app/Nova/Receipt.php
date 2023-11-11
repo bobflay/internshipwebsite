@@ -45,7 +45,7 @@ class Receipt extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Image::make('location')->disk('public'),
+            Image::make('location','location')->disk('public'),
             DateTime::make('created_at'),
             BelongsTo::make('user')
         ];

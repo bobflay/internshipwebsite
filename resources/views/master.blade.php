@@ -229,7 +229,7 @@
                         </li>
                     </ul> --}}
                     <span class="float-right" style="margin-left: auto;">
-                        <a href="/register" class="btn btn-main btn-small"><i class="fa fa-sign-in-alt mr-2"></i>Register</a>
+                        <a href="/app" class="btn btn-main btn-small"><i class="fa fa-sign-in-alt mr-2"></i>Register</a>
                     </span>
 
                 </div> <!-- / .navbar-collapse -->

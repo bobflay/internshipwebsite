@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Candidate;
+use App\Notifications\FcmNotification;
+
 
 class User extends Authenticatable
 {
@@ -73,4 +75,32 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+
+
+    public function createorUpdate($deviceData)
+    {
+        // Check if the device with the provided device_id already exists
+        $device = $this->devices()->where('device_id', $deviceData['device_id'])->first();
+
+        if ($device) {
+            // If the device exists, update its attributes
+            $device->update($deviceData);
+            return $device;
+        } else {
+            // If the device doesn't exist, create a new one
+            return $this->devices()->create($deviceData);
+        }
+    }
+
 }

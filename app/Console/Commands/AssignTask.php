@@ -32,13 +32,12 @@ class AssignTask extends Command
      */
     public function handle()
     {
-        $candidates = Candidate::where('passed',1)->get();
-        $task = Task::find(375);
+        //$candidates = Candidate::where('created_at','>=','2023-10-01 00:00:00')->where('registered',1)->where('program',4)->get();
+        $candidates = Candidate::where('id','558')->get();
+        $task = Task::find(393);
         foreach ($candidates as $key => $candidate) {
             try {
-                $role = $candidate->projects->first()->pivot->role;
-                if($role == 'mobile')
-                {
+
                     $user = User::where('email',$candidate->email)->first();
                     $user->tasks()->create([
                         'project_id'=>$candidate->projects->first()->id,
@@ -47,7 +46,7 @@ class AssignTask extends Command
                         'description'=>$task->description,
                         'state'=>$task->state
                     ]);
-                }
+                
 
             } catch (\Throwable $th) {
                 var_dump($th);

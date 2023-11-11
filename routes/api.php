@@ -7,6 +7,9 @@ use App\Http\Controllers\API\QuestionController;
 use App\Http\Controllers\API\ScreenCaptureController;
 use App\Http\Controllers\API\ReceiptController;
 use App\Http\Controllers\API\DashboardController;
+use App\Http\Controllers\API\ParametersController;
+use App\Http\Controllers\API\DevicesController;
+use App\Http\Controllers\API\NotificationsController;
 
 use App\Http\Controllers\API\AuthController;
 
@@ -37,8 +40,13 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 
+Route::get('parameters',[ParametersController::class,'index']);
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
+
+    Route::post('device',[DevicesController::class,'store']);
+    Route::get('notifications',[NotificationsController::class,'index']);
     Route::get('questions',[QuestionController::class,'index']);
     Route::post('answer',[QuestionController::class,'answer']);
     Route::post('logout', [AuthController::class, 'logout']);

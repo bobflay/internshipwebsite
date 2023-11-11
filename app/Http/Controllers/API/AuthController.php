@@ -26,12 +26,13 @@ class AuthController extends Controller
             if($user->batches()->first()->id == $batch->id)
             {
                 //check if the user uploaded a receipt
-                if( $user->receipts->count() > 0 )
+                if( $user->candidate->registered == 1 )
                 {
-                    return response()->json(['error' => 'Reviewing Your Registration Data'], 403);
-                }else{
                     $accessToken = $user->createToken('authToken')->plainTextToken;
-                    return response()->json(['access_token' => $accessToken], 201);
+                    return response()->json(['access_token' => $accessToken], 200);
+                }else{
+
+                    return response()->json(['error' => 'Unauthorized'], 401);
                 }
             }
 
