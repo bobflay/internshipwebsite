@@ -58,6 +58,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('capture',[ScreenCaptureController::class,'store']);
     Route::post('receipt',[ReceiptController::class,'store']);
 
+    //adding jobs resouces
+
     Route::get('dashboard',[DashboardController::class,'index']);
     Route::get('/tasks/{id}',[TaskController::class,'show']);
     Route::put('/notifications/{id}',[NotificationsController::class,'update']);
