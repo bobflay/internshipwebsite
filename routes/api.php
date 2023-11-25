@@ -57,7 +57,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('block', [AuthController::class, 'block']);
     Route::post('capture',[ScreenCaptureController::class,'store']);
     Route::post('receipt',[ReceiptController::class,'store']);
-    Route::get('jobs',[JobsController::class,'index']);
 
     Route::get('dashboard',[DashboardController::class,'index']);
     Route::get('/tasks/{id}',[TaskController::class,'show']);
