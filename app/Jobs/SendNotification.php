@@ -18,16 +18,18 @@ class SendNotification implements ShouldQueue
     public $title = '';
     public $body = '';
     public $device_id = '';
+    public $task = null;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($device_id,$title,$body)
+    public function __construct($device_id,$title,$body,$task)
     {
+        $this->device_id = $device_id;
         $this->title = $title;
         $this->body = $body;
-        $this->device_id = $device_id;
+        $this->task = $task;
     }
 
     /**
@@ -45,6 +47,11 @@ class SendNotification implements ShouldQueue
             "notification" => [
                 "title" => $this->title,
                 "body" => $this->body,  
+            ],
+            "data"=>[
+                'type'=>'task',
+                'id'=>$this->task->id,
+                'data'=>$this->task->toArray()
             ]
         ];
         

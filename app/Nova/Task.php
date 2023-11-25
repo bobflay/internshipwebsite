@@ -69,6 +69,19 @@ class Task extends Resource
                 return $this->checkIfAdmin($request);
             }),
 
+            Select::make('Type')->options([
+                'task' => 'Task',
+                'video' => 'Video',
+            ])->displayUsingLabels(),
+
+            Text::make('Youtube')->readonly(function ($request) {
+                return $this->checkIfAdmin($request);
+            }),
+
+            Text::make('youtube_thumbnail')->readonly(function ($request) {
+                return $this->checkIfAdmin($request);
+            }),
+
             Select::make('State')->options([
                 'new' => 'New',
                 'active' => 'Active',

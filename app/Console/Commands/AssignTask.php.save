@@ -1,3 +1,5 @@
+
+
 <?php
 
 namespace App\Console\Commands;
@@ -33,9 +35,8 @@ class AssignTask extends Command
      */
     public function handle()
     {
-        // $candidates = Candidate::where('id','54')->get();
-        $candidates = Candidate::where('created_at','>=','2023-10-01 00:00:00')->where('registered',1)->get();
-        $task = Task::find(730);
+        $candidates = Candidate::where('id','708')->get();
+        $task = Task::find(390);
         foreach ($candidates as $key => $candidate) {
             try {
                     $user = User::where('email',$candidate->email)->first();
@@ -45,19 +46,16 @@ class AssignTask extends Command
                         'title'=>$task->title,
                         'due_date'=>$task->due_date,
                         'description'=>$task->description,
-                        'state'=>$task->state,
-                        'type'=>$task->type,
-                        'youtube'=>$task->youtube,
-                        'youtube_thumbnail'=>$task->youtube_thumbnail
+                        'state'=>$task->state
                     ]);
                     foreach($devices as $device)
                     {
                         $notification = Notification::create([
                             'user_id'=>$user->id,
                             'device_id'=>$device->id,
-                            'title'=>'A new video is assigned to you',
+                            'title'=>'A new task is assigned to you',
                             'message'=>$task->title,
-                            'type'=>$task->type,
+                            'type'=>'task',
                             'type_id'=>$task->id
                         ]);
 

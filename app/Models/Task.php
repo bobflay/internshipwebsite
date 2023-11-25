@@ -18,7 +18,10 @@ class Task extends Model
         'title',
         'due_date',
         'description',
-        'state'
+        'state',
+        'type',
+        'youtube',
+        'youtube_thumbnail'
     ];
 
 

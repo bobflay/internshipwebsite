@@ -10,6 +10,8 @@ use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\ParametersController;
 use App\Http\Controllers\API\DevicesController;
 use App\Http\Controllers\API\NotificationsController;
+use App\Http\Controllers\API\TaskController;
+use App\Http\Controllers\API\JobsController;
 
 use App\Http\Controllers\API\AuthController;
 
@@ -47,6 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('device',[DevicesController::class,'store']);
     Route::get('notifications',[NotificationsController::class,'index']);
+    Route::post('notifications/done',[NotificationsController::class,'done']);
     Route::get('questions',[QuestionController::class,'index']);
     Route::post('answer',[QuestionController::class,'answer']);
     Route::post('logout', [AuthController::class, 'logout']);
@@ -54,8 +57,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('block', [AuthController::class, 'block']);
     Route::post('capture',[ScreenCaptureController::class,'store']);
     Route::post('receipt',[ReceiptController::class,'store']);
+    Route::get('jobs',[JobsController::class,'index']);
 
     Route::get('dashboard',[DashboardController::class,'index']);
+    Route::get('/tasks/{id}',[TaskController::class,'show']);
+    Route::put('/notifications/{id}',[NotificationsController::class,'update']);
 
 
 });

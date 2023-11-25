@@ -25,7 +25,10 @@ class DashboardController extends Controller
             $obj = [];
             $obj['id']=$task->id;
             $obj['title']=$task->title;
+            $obj['type']=$task->type;
             $obj['description']=$task->description;
+            $obj['youtube']=$task->youtube;
+            $obj['youtube_thumbnail']=$task->youtube_thumbnail;
             $obj['due_date'] = $task->due_date->format('Y-m-d');
             $obj['state'] = $task->state;
             $obj['project'] = $task->project;
