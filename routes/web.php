@@ -5,9 +5,11 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\AccountController;
 
 use App\Models\User;
-
+use App\Models\Answer;
+use App\Models\Candidate;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +40,8 @@ Route::get('/candidates/{id}',[CandidateController::class,'show']);
 
 Route::get('/portfolios/{id}',[PortfolioController::class,'show']);
 
+Route::get('account/delete',[AccountController::class,'delete']);
+
 Route::get('/terms',function(){
     return view('terms_app');
 });
@@ -56,18 +60,26 @@ Route::get('phase2',[StudentController::class,'secondPhase']);
 Route::get('/test',function(){
 
 
-    $users = User::all();
+    $users = User::whereHas('answers',function($q){
+        $q->where('created_at','>=','2024-02-17 00:00:00');
+    })->get();
+
     $result = [];
     foreach ($users as $key => $user) {
         $obj = [];
-        $obj['name'] = $user->name;
-        $answers = $user->answers;
+        $obj['name'] = $user->email;
+        $answers = Answer::whereHas('user',function($q) use ($user){
+            $q->where('user_id','=',$user->id);
+        })->whereHas('question',function($q){
+            $q->where('session','S2023');
+        })
+        ->where('created_at','>=','2024-02-17 15:00:00')->get(); 
+      
         $obj['questions'] = count($answers);
         $obj['scholarship'] = is_null($user->candidate) ? '': $user->candidate->scholarship;
         $obj['category'] = is_null($user->candidate) ? '': $user->candidate->category->name;
         $obj['program'] = is_null($user->candidate) ? '': $user->candidate->program;
         $obj['discord_id'] = is_null($user->candidate) ? '': $user->candidate->discord_id;
-
         $score = 0;
         if(!empty($answers))
         {
@@ -78,7 +90,7 @@ Route::get('/test',function(){
                 }
             }
         }
-        $obj['score'] = (int)$score*100/50;
+        $obj['score'] = (int)$score*100/30;
         if($obj['questions']>0)
         {
             array_push($result,$obj);
@@ -88,6 +100,14 @@ Route::get('/test',function(){
     usort($result, function ($a, $b) {
         return $b['score'] - $a['score'];
     });
+
+    foreach($result as $candidate)
+    {
+        $candidate = Candidate::where('email',$candidate['name'])->get()->first();
+        $candidate->passed =true;
+        $candidate->save();
+    }
+
 
     return response()->json($result);
 

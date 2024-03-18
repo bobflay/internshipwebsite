@@ -45,14 +45,17 @@ class Project extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if(in_array($request->user()->email,['bob.fleifel@gmail.com','aliredahajj066@gmail.com']))
-        {
-            return $query;
-        }else{
-            return $query->whereHas('candidates', function ($candidateQuery) use ($request) {
-                $candidateQuery->where('email', $request->user()->email);
-            });
-        }
+
+        return $query->where('created_at','>=','2024-03-01 00:00:00');
+
+        // if(in_array($request->user()->email,['bob.fleifel@gmail.com','aliredahajj066@gmail.com']))
+        // {
+        //     return $query;
+        // }else{
+        //     return $query->whereHas('candidates', function ($candidateQuery) use ($request) {
+        //         $candidateQuery->where('email', $request->user()->email);
+        //     });
+        // }
     }
 
 
@@ -83,6 +86,9 @@ class Project extends Resource
                     ]),
                 ];
             }),
+            Text::make('Web Github URL','web_github_url')->hideFromIndex(),
+            Text::make('Mobile Github URL','mobile_github_url')->hideFromIndex(),
+
             Text::make('Participants',function(){
                 return $this->candidates()->count();
             }),

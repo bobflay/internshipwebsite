@@ -12,7 +12,7 @@ class ParametersController extends Controller
     public function index()
     {
         $data = [
-            'camera'=>false
+            'camera'=>true
         ];
         
         return response()->json($data);

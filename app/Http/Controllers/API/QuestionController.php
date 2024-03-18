@@ -23,12 +23,20 @@ class QuestionController extends Controller
         $user = auth()->user();
         $candidate = Candidate::where('email',$user->email)->first();
         $category = $candidate->category;
+
+        $test_users = [
+            'bobweb@test.com',
+            'bobmobile@test.com'
+        ];
         
-        if(true)
+        if(false)
         {
-            $questions = Question::where('category_id',$category->id)->whereDoesntHave('answers',function($query) use ($user){
-                    $query->where('user_id',$user->id);
+
+            $questions = Question::where('category_id',$category->id)->where('session','S2023')->whereDoesntHave('answers',function($query) use ($user){
+                $query->where('user_id',$user->id);
             })->take(50)->get();
+        
+
 
             $shuffled_questions = [];
     
@@ -47,6 +55,11 @@ class QuestionController extends Controller
                 'message' => 'Successfully retrieved questions.',
             ]);
 
+        }else{
+            return response()->json([
+                'data' => [],
+                'message' => 'Successfully retrieved questions.',
+            ]);
         }
 
         

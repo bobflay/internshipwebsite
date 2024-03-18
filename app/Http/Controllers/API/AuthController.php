@@ -29,9 +29,11 @@ class AuthController extends Controller
                 if( $user->candidate->registered == 1 )
                 {
                     $accessToken = $user->createToken('authToken')->plainTextToken;
-                    return response()->json(['access_token' => $accessToken], 200);
+                    return response()->json([
+                        'access_token' => $accessToken,
+                        'user' => $user
+                    ], 200);
                 }else{
-
                     return response()->json(['error' => 'Unauthorized'], 401);
                 }
             }

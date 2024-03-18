@@ -56,4 +56,9 @@ abstract class Resource extends NovaResource
     {
         return parent::relatableQuery($request, $query);
     }
+
+    public function checkIfAdmin($request)
+    {
+        return ! in_array($request->user()->email,['bob.fleifel@gmail.com']);
+    }
 }

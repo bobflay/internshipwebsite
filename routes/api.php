@@ -12,9 +12,13 @@ use App\Http\Controllers\API\DevicesController;
 use App\Http\Controllers\API\NotificationsController;
 use App\Http\Controllers\API\TaskController;
 use App\Http\Controllers\API\JobsController;
-
+use App\Http\Controllers\API\BalanceController;
+use App\Http\Controllers\API\TransactionController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\WalletController;
 
+use App\Models\Category;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,6 +41,10 @@ Route::get('/candidates/csv',[CandidateController::class,'exportCSV']);
 Route::get('/candidates/csv2',[CandidateController::class,'exportCSVall']);
 Route::apiResource('candidates', CandidateController::class);
 
+Route::get('/categories',function(){
+    return response()->json(Category::all()->toArray());
+});
+
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
@@ -46,7 +54,12 @@ Route::get('parameters',[ParametersController::class,'index']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
+    Route::post('/user/update-password', [UserController::class, 'updatePassword']);
 
+    Route::apiResource('wallet', WalletController::class);
+    Route::apiResource('transactions', TransactionController::class);
+
+    Route::apiResource('balance', BalanceController::class);
     Route::post('device',[DevicesController::class,'store']);
     Route::get('notifications',[NotificationsController::class,'index']);
     Route::post('notifications/done',[NotificationsController::class,'done']);
@@ -58,6 +71,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('capture',[ScreenCaptureController::class,'store']);
     Route::post('receipt',[ReceiptController::class,'store']);
     Route::get('jobs',[JobsController::class,'index']);
+    Route::post('jobs/{id}/apply',[JobsController::class,'apply']);
 
     Route::get('dashboard',[DashboardController::class,'index']);
     Route::get('/tasks/{id}',[TaskController::class,'show']);

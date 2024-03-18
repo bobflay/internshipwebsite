@@ -28,7 +28,7 @@ class PassedCandidates extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->where('passed',1)
+            $query->where('passed',1)->where('created_at','>=','2023-10-01 00:00:00')
         ));
     }
 

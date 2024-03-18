@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Models\Job;
 use Log;
 class DashboardController extends Controller
 {
@@ -15,7 +16,8 @@ class DashboardController extends Controller
 
     public function index()
     {
-
+        $balance = $this->getBalance();
+        $jobs = $this->getJobs();
         $projects = auth()->user()->candidate()->first()->projects;
         $tasks = auth()->user()->tasks()->with('project')->get();
         $formatted_tasks = [];
@@ -36,12 +38,33 @@ class DashboardController extends Controller
         }
 
         $response = [
-            'balance'=>0,
-            'jobs'=>0,
+            'balance'=>(float)$balance,
+            'jobs'=>$jobs,
             'projects'=>$projects,
             'tasks'=>$formatted_tasks
         ];
 
         return response()->json($response);
+    }
+
+    public function getBalance()
+    {
+        if(!is_null(auth()->user()->balances->last()))
+        {
+            $balance = auth()->user()->balances->last()->balance;
+            return $balance;
+        }else{
+            return 0;
+        }
+
+    }
+
+    public function getJobs()
+    {
+        $jobs_count = Job::whereDoesntHave('jobSeekers',function($q){
+            $q->where('email',auth()->user()->email);
+        })->count();
+
+        return $jobs_count;
     }
 }

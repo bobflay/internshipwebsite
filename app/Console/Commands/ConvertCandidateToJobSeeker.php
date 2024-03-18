@@ -30,7 +30,7 @@ class ConvertCandidateToJobSeeker extends Command
      */
     public function handle()
     {
-        $candidates = Candidate::where('registered',1)->get();
+        $candidates = Candidate::where('created_at','>=','2023-10-01 00:00:00')->where('registered',1)->get();
         foreach($candidates as $candidate)
         {
             $job_seeker = new JobSeeker();

@@ -17,11 +17,21 @@ class NotificationsController extends Controller
     public function index(Request $request)
     {
         $device = Device::where('device_id',$request->get('device_id'))->get()->first();
-        $notifications = auth()->user()->notifications()->where('device_id',$device->id)->get();
-        return response()->json([
-            'status'=>200,
-            'data'=>$notifications
-        ]);
+        if(!is_null($device))
+        {
+            $notifications = auth()->user()->notifications()->where('device_id',$device->id)->get();
+            return response()->json([
+                'status'=>200,
+                'data'=>$notifications
+            ]);
+
+        }else{
+            return response()->json([
+                'status'=>200,
+                'data'=>[]
+            ]);
+        }
+
     }
 
     public function update($id,Request $request)

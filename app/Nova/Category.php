@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\HasMany;
-
+use Log;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Category extends Resource
@@ -50,6 +50,7 @@ class Category extends Resource
             HasMany::make('questions')
         ];
     }
+
 
     /**
      * Get the cards available for the request.

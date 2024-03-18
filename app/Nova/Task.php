@@ -80,7 +80,7 @@ class Task extends Resource
 
             Text::make('youtube_thumbnail')->readonly(function ($request) {
                 return $this->checkIfAdmin($request);
-            }),
+            })->hideFromIndex(),
 
             Select::make('State')->options([
                 'new' => 'New',

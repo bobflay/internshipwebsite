@@ -34,8 +34,9 @@ class AssignTask extends Command
     public function handle()
     {
         // $candidates = Candidate::where('id','54')->get();
-        $candidates = Candidate::where('created_at','>=','2023-10-01 00:00:00')->where('registered',1)->get();
-        $task = Task::find(730);
+        //$candidates = Candidate::where('created_at','>=','2023-10-01 00:00:00')->where('registered',1)->get();
+        $candidates = Candidate::where('email','jihad.abdallah76@gmail.com')->get();
+        $task = Task::find(1121);
         foreach ($candidates as $key => $candidate) {
             try {
                     $user = User::where('email',$candidate->email)->first();

@@ -3,29 +3,31 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\HasOne;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Image;
 
-class User extends Resource
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class Transaction extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Transaction::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -33,7 +35,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id',
     ];
 
     /**
@@ -44,34 +46,34 @@ class User extends Resource
      */
     public function fields(Request $request)
     {
+
         return [
             ID::make()->sortable(),
-
-            Gravatar::make()->maxWidth(50),
-
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
-            Boolean::make('blocked')->hideFromIndex(),
-            HasOne::make('Candidate'),
-            HasMany::make('Answers'),
-            HasMany::make('ScreenCaptures'),
-            HasMany::make('Receipts'),
-            HasMany::make('Tasks'),
-            HasMany::make('Transactions')
-
+    
+            BelongsTo::make('User'),
+    
+            Select::make('Type')->options([
+                'deposit' => 'Deposit',
+                'withdrawal' => 'Withdrawal',
+            ])->readonly(function ($request) {
+                return $this->checkIfAdmin($request);
+            }),
+    
+            Number::make('Amount')
+                ->sortable(),
+    
+            DateTime::make('Created At')
+                ->sortable(),
+    
+            // Add a File field to handle the receipt
+            Image::make('Receipt', 'receipt_path') // 'receipt_path' is the column name in the database
+                ->disk('public') // The disk where files are stored, adjust if you use a different disk
+                ->onlyOnDetail() // Show this field only on the detail view
+                ->canSee(function ($request) {
+                    return $this->type === 'deposit' && $this->receipt_path !== null;
+                }), // Only show if it's a deposit and a receipt exists
         ];
+
     }
 
     /**
@@ -84,6 +86,7 @@ class User extends Resource
     {
         return [];
     }
+
     /**
      * Get the filters available for the resource.
      *

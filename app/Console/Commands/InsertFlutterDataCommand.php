@@ -32,12 +32,11 @@ class InsertFlutterDataCommand extends Command
     {
 
         // Read JSON file
-        $jsonFile = storage_path('app/flutter.json');
+        $jsonFile = storage_path('app/dart.json');
         $jsonData = file_get_contents($jsonFile);
         $data = json_decode($jsonData, true);
 
         $category = Category::where('name','Mobile Development')->first();
-
 
         // Insert data into database
         foreach ($data as $item) {
@@ -45,7 +44,8 @@ class InsertFlutterDataCommand extends Command
             $question = Question::create([
                 'content' => $item['question'],
                 'points'=>1.0,
-                'category_id'=>$category->id
+                'category_id'=>$category->id,
+                'session'=>'S2023'
             ]);
 
             // Create choices
